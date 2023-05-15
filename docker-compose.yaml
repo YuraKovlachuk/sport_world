@@ -1,0 +1,62 @@
+version: '3'
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: ${IMAGE:-postgres}:${IMAGE_TAG:-dev}
+    env_file:
+      - ./server/.env
+    ports:
+      - ${PORT:-3000}:3000
+      - 9223:9222
+    networks:
+      - public-network
+    depends_on:
+      - postgres
+    volumes:
+      - ./server:/app
+    command:
+      - run
+      - start:dev
+    logging:
+      driver: local
+  postgres:
+    image: postgres:15
+    hostname: postgres
+    restart: always
+    ports:
+      - 5433:5432
+    expose:
+      - 5433
+    networks:
+      - public-network
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: sport_world
+    volumes:
+      - db-data:/var/lib/postgresql/data/
+      - ./server/init.sql:/docker-entrypoint-initdb.d/init.sql
+  pgadmin:
+    container_name: pgadmin4_container_bkr_project
+    image: dpage/pgadmin4
+    restart: always
+    networks:
+      - public-network
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+      GUNICORN_ACCESS_LOGFILE: '/dev/null'
+      PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED: 'False'
+    ports:
+      - 5050:80
+    logging:
+      driver: none
+    command: tail -f /dev/null
+volumes:
+  db-data:
+
+networks:
+  public-network:
+    external: true
