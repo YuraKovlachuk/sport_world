@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { UserMembershipEntity } from '../../sportComplex/service/membership/user-membership.entity';
+import { UserMembershipEntity } from '../../sport-complex/service/membership/user-membership.entity';
 
 @Entity()
 export class CustomerEntity {

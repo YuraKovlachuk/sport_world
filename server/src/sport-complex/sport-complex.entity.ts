@@ -16,7 +16,7 @@ export class SportComplexEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @Column()
@@ -25,7 +25,7 @@ export class SportComplexEntity {
   @Column()
   contacts: string;
 
-  @Column()
+  @Column({ default: 0 })
   rate: number;
 
   @Column()

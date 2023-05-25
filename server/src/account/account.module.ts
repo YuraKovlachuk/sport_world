@@ -20,7 +20,7 @@ import { ComplexOwnerEntity } from './complex-owner/complex-owner.entity';
     JwtModule.register({
       global: true,
       secret: process.env.SECRET_CODE,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '30m' },
     }),
   ],
   providers: [AccountService, CustomerService, ComplexOwnerService],

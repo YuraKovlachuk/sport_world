@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { SportComplexEntity } from '../../sportComplex/sport-complex.entity';
+import { SportComplexEntity } from '../../sport-complex/sport-complex.entity';
 
 @Entity()
 export class ComplexOwnerEntity {

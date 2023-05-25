@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import {
   AuthResponseDto,
   SignInRequestDto,
@@ -13,6 +17,7 @@ import { CustomerService } from './customer/customer.service';
 import { CustomerEntity } from './customer/customer.entity';
 import { ComplexOwnerService } from './complex-owner/complex-owner.service';
 import { ComplexOwnerEntity } from './complex-owner/complex-owner.entity';
+import { IPayload } from './interfaces/payload.interface';
 
 @Injectable()
 export class AccountService {
@@ -72,10 +77,11 @@ export class AccountService {
       password: hash,
     });
 
-    const payload = {
+    const payload: IPayload = {
       id: savedAccount.id,
       email: savedAccount.email,
       phone: savedAccount.phone,
+      type: savedAccount.type,
     };
 
     const accessToken = await this.jwtService.signAsync(payload);
@@ -101,13 +107,14 @@ export class AccountService {
     const checkPassword = await bcrypt.compare(password, checkAccount.password);
 
     if (!checkPassword) {
-      throw new ConflictException('Wrong password');
+      throw new UnauthorizedException('Wrong password');
     }
 
-    const payload = {
+    const payload: IPayload = {
       id: checkAccount.id,
       email: checkAccount.email,
       phone: checkAccount.phone,
+      type: checkAccount.type,
     };
 
     const accessToken = await this.jwtService.signAsync(payload);

@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import { SportComplexEntity } from '../sport-complex.entity';
 import { ScheduleEntity } from './schedule/schedule.entity';
-import { ServiceTypeEntity } from './serviceType/service-type.entity';
+import { ServiceTypeEntity } from './service-type/service-type.entity';
 import { MembershipEntity } from './membership/membership.entity';
 
 @Entity()
