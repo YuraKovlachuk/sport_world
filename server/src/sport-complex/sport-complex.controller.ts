@@ -1,9 +1,12 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '../account/auth/auth.guard';
@@ -15,12 +18,16 @@ import {
   ApiConflictResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { SportComplexDto } from './sport-complex.dto';
+import {
+  SportComplexDto,
+  SportComplexQueryDto,
+  SportComplexResponseDto,
+} from './sport-complex.dto';
 import { SportComplexService } from './sport-complex.service';
 
-@ApiBearerAuth()
 @ApiTags('sport-complex')
 @UseGuards(AuthGuard, AccountGuard)
 @Controller('sport-complex')
@@ -30,7 +37,7 @@ export class SportComplexController {
   @ApiOperation({ summary: 'Create sport complex' })
   @ApiOkResponse({
     description: 'Complex successfully created',
-    type: SportComplexDto,
+    type: SportComplexResponseDto,
   })
   @ApiConflictResponse({
     description: 'Complex with this name is already exist',
@@ -40,7 +47,24 @@ export class SportComplexController {
   @Post()
   async createComplex(
     @Body() newComplex: SportComplexDto,
-  ): Promise<SportComplexDto> {
+  ): Promise<SportComplexResponseDto> {
     return await this.sportComplexService.createSportComplex(newComplex);
+  }
+
+  @ApiOperation({ summary: 'Get sport complex by id' })
+  @ApiOkResponse({
+    description: 'Complex successfully created',
+    type: SportComplexResponseDto,
+  })
+  @ApiConflictResponse({
+    description: 'Sport complex with such id not found',
+  })
+  @HttpCode(HttpStatus.OK)
+  @Roles(AccountType.owner)
+  @Get()
+  async getSportComplexById(
+    @Query() query: SportComplexQueryDto,
+  ): Promise<SportComplexResponseDto> {
+    return await this.sportComplexService.getSportComplexById(query.complexId);
   }
 }

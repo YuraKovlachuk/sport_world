@@ -1,5 +1,10 @@
-import { ConflictException, Injectable, UseGuards } from '@nestjs/common';
-import { SportComplexDto } from './sport-complex.dto';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UseGuards,
+} from '@nestjs/common';
+import { SportComplexDto, SportComplexResponseDto } from './sport-complex.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SportComplexEntity } from './sport-complex.entity';
@@ -10,7 +15,9 @@ export class SportComplexService {
     @InjectRepository(SportComplexEntity)
     private sportComplexEntityRepository: Repository<SportComplexEntity>,
   ) {}
-  async createSportComplex(complex: SportComplexDto): Promise<SportComplexDto> {
+  async createSportComplex(
+    complex: SportComplexDto,
+  ): Promise<SportComplexResponseDto> {
     const checkComplex = await this.sportComplexEntityRepository.findOne({
       where: { name: complex.name },
     });
@@ -20,5 +27,19 @@ export class SportComplexService {
     }
 
     return await this.sportComplexEntityRepository.save(complex);
+  }
+
+  async getSportComplexById(
+    complexId: string,
+  ): Promise<SportComplexResponseDto> {
+    const complex = await this.sportComplexEntityRepository.findOne({
+      where: { id: complexId },
+    });
+
+    if (!complex) {
+      throw new NotFoundException('Sport complex with such id not found');
+    }
+
+    return complex;
   }
 }

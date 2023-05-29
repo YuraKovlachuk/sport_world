@@ -18,7 +18,7 @@ export class AccountGuard implements CanActivate {
       'roles',
       context.getHandler(),
     );
-    console.log(roles);
+
     if (!roles || !roles.length) {
       throw new BadRequestException('Type was not provided');
     }

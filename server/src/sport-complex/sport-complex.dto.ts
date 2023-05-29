@@ -27,3 +27,22 @@ export class SportComplexDto {
   @IsString()
   image: string;
 }
+
+export class SportComplexResponseDto extends SportComplexDto {
+  @ApiProperty({ default: 'c05b27cf-c949-4418-8e1d-086b63c8c24a' })
+  id: string;
+
+  @ApiProperty({ default: 0 })
+  rate: number;
+
+  @ApiProperty({ default: '2023-05-29T22:17:44.956Z' })
+  createdDate: Date;
+
+  @ApiProperty({ default: '2023-05-29T22:17:44.956Z' })
+  updatedDate: Date;
+}
+
+export class SportComplexQueryDto {
+  @ApiProperty({ default: 'c05b27cf-c949-4418-8e1d-086b63c8c24a' })
+  complexId: string;
+}
