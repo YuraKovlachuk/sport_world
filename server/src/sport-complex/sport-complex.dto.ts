@@ -1,5 +1,6 @@
 import { IsNumber, IsPhoneNumber, IsString } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { AccountDataDto } from '../account/account-data.dto';
 
 export class SportComplexDto {
   @ApiProperty({ default: 'Complex1' })
@@ -40,9 +41,19 @@ export class SportComplexResponseDto extends SportComplexDto {
 
   @ApiProperty({ default: '2023-05-29T22:17:44.956Z' })
   updatedDate: Date;
+
+  @ApiProperty()
+  owner: AccountDataDto;
 }
 
 export class SportComplexQueryDto {
   @ApiProperty({ default: 'c05b27cf-c949-4418-8e1d-086b63c8c24a' })
   complexId: string;
+}
+
+export class SportComplexPutDto extends PartialType(SportComplexDto) {}
+
+export class SportComplexDeleteResponse {
+  @ApiProperty({ default: 'Sport complex was successfully deleted' })
+  message: string;
 }
