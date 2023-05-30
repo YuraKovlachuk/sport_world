@@ -25,5 +25,6 @@ import { ComplexOwnerEntity } from './complex-owner/complex-owner.entity';
   ],
   providers: [AccountService, CustomerService, ComplexOwnerService],
   controllers: [AccountController],
+  exports: [AccountService, CustomerService, ComplexOwnerService],
 })
 export class AccountModule {}

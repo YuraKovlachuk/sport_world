@@ -14,6 +14,14 @@ export class ComplexOwnerService {
   async createComplexOwner(
     newComplexOwner: AccountDataDto,
   ): Promise<ComplexOwnerEntity> {
-    return await this.complexOwnerRepository.save(newComplexOwner);
+    return this.complexOwnerRepository.save(newComplexOwner);
+  }
+
+  async getComplexOwnerById(id: string): Promise<ComplexOwnerEntity> {
+    return this.complexOwnerRepository.findOne({
+      where: {
+        id,
+      },
+    });
   }
 }
