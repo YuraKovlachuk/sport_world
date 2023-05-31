@@ -127,4 +127,16 @@ export class AccountService {
 
     return response;
   }
+
+  async getAccountById(id: string) {
+    return this.accountRepository.findOne({
+      where: {
+        id,
+      },
+      relations: {
+        complexOwner: true,
+        customer: true,
+      },
+    });
+  }
 }
